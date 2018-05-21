@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>To-Do List</title>
+
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="./styles/style.css">
+	<link rel="stylesheet" href="./styles/fontawesome-all.min.css">
+</head>
+
+<body>
+	<div class="form-container hide">
+		<form action="">
+			<h2>Create new item</h2>
+			<input type="text" placeholder="Item name" id="new-item-name">
+			<input type="number" placeholder="Quantity" id="new-item-quantity">
+			<select name="category" id="new-item-category">
+				<option value="todo">To-do</option>
+				<option value="doing">Doing</option>
+				<option value="done">Done</option>
+				<option value="Backlog">Backlog</option>
+			</select>
+			<div class="div-buttons">
+				<input type="submit" value="Submit" id="btnSubmit" class="button">
+				<button id="btnCancel">Cancel</button>
+			</div>
+		</form>
+	</div>
+	<div class="top-nav">
+		<h1>K∀NBOARD</h1>
+		<i class="fas fa-plus" id="create-button"></i>
+	</div>
+	<div class="container">
+		<div class="todo-lane">
+			<div class="lane-heading"><h2>To-do</h2></div>
+			<div class="lane" id="todo-list"></div>
+		</div>
+		<div class="doing-lane">
+				<div class="lane-heading"><h2>Doing</h2></div>
+			<div class="lane" id="doing-list"></div>
+		</div>
+		<div class="done-lane">
+				<div class="lane-heading"><h2>Done</h2></div>
+			<div class="lane" id="done-list"></div>
+		</div>
+		<div class="backlog-lane">
+				<div class="lane-heading"><h2>Backlog</h2></div>
+			<div class="lane" id="backlog-list"></div>
+		</div>
+	</div>
+<div class="footer">
+		<a href="http://github.com/trungh13">Visit my Github   <i class="fab fa-github"></i> </a>
+</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script src="./script.js"></script>
+</body>
+
+</html>

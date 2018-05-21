@@ -1,0 +1,159 @@
+/* global */
+:root {
+  --item-color: lightblue;
+  --background-color: skyblue;
+  --lane-odd: rgba(0, 0, 0, 0.05);
+  --lane-even: ;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+}
+html,
+body {
+  height: 100%;
+}
+.container{
+  height:90%;
+}
+body p {
+  font-size: 20 px;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 25%));
+}
+.container h2 {
+  text-align: center;
+  padding: 10px;
+}
+.top-nav {
+  height: 30px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.top-nav i {
+  background-color: lightgray;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+.top-nav i:before {
+  position: relative;
+  top: 24%;
+  left: 27%;
+}
+.form-container {
+  display: flex;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+form {
+  background-color: white;
+  width: 40%;
+  min-width: 400px;
+  padding: 20px 50px;
+  display: grid;
+}
+.form-container input,
+.form-container select,
+.form-container button {
+  height: 30px;
+  border: none;
+  margin: 10px;
+}
+form * {
+  font-size: 15px;
+  font-weight: 400;
+}
+form h2 {
+  height: fit-content;
+  font-size: 1.5em;
+  text-align: center;
+}
+form input[type="text"],
+input[type="number"] {
+  border-bottom: 1px solid gray;
+}
+form input[type="submit"],
+#btnCancel {
+  border: 0.5px solid gray;
+}
+.div-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.todo-lane {
+  --item-color: lightgray;
+  background-color: var(--lane-odd);
+}
+.doing-lane {
+  --item-color: lightblue;
+  background-color: var(--lane-even);
+}
+.done-lane {
+  --item-color: lightcoral;
+  background-color: var(--lane-odd);
+}
+.backlog-lane {
+  --item-color: lightpink;
+  background-color: var(--lane-even);
+}
+.item {
+  background-color: var(--item-color);
+  display: grid;
+  grid-template-columns: 15px 65% 1fr 15px;
+  margin: 5px;
+  padding: 10px;
+  grid-gap: 5px;
+  box-shadow: 3px 3px darkgray;
+}
+.item i {
+  margin: auto;
+}
+.item select {
+  margin: auto;
+  width: 13px;
+  height: 13px;
+  border: none;
+}
+*[contenteditable="true"] {
+  border: 1px solid transparent;
+  padding-left: 5px;
+}
+*[contenteditable="true"]:hover {
+  border: 1px solid gray;
+}
+.hide {
+  display: none;
+}
+.warning-input::placeholder {
+  color: red;
+}
+/* swimming */
+.lane {
+  height: auto;
+  padding: 0px 5px;
+}
+.lane-hovering {
+  border: 1px dashed black;
+}
+.footer{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer a{
+  text-decoration: none;
+}
