@@ -1,15 +1,4 @@
-let todoList = [
-  { category: "todo", name: "Development tools", quantity: 5 },
-  { category: "todo", name: "Intro to React", quantity: 1 },
-  { category: "todo", name: "Git basics and GitHub", quantity: 2 },
-  { category: "doing", name: "DOM", quantity: 1 },
-  { category: "done", name: "ES2015", quantity: 1 },
-  { category: "done", name: "HTML", quantity: 1 },
-  { category: "done", name: "CSS", quantity: 1 },
-  { category: "done", name: "Regular Expression", quantity: 3 },
-  { category: "backlog", name: "Scrum", quantity: 1 },
-];
-
+let todoList;
 const quantity_reg = /^[1-9]\d{0,4}$/;
 const name_reg = /^[a-zA-Z0-9 _-]{3,20}$/;
 
@@ -17,6 +6,9 @@ const btnSubmit = document.getElementById("btnSubmit");
 btnSubmit.addEventListener("click", createItem);
 const createButton = document.getElementById("create-button");
 createButton.addEventListener("click", toggleForm);
+const refreshButton=document.getElementById("refresh-button")
+refreshButton.addEventListener("click",refreshdbByClick);
+
 const formDiv = document.querySelector(".form-container");
 const cancelButton = document.getElementById("btnCancel");
 createButton.addEventListener("click", toggleForm);
@@ -26,7 +18,6 @@ function toggleForm() {
 const renderItem = (item, parentNode) => {
   let itemNode = document.createElement("div");
   itemNode.className = "item";
-  itemNode.setAttribute("draggable", "true");
   itemNode.id = item.name;
 
   let itemCategory = document.createElement("select");
@@ -76,6 +67,7 @@ const renderItem = (item, parentNode) => {
   document.getElementById(parentNode).appendChild(itemNode);
 };
 function render() {
+  refreshdb();
   document.getElementById("todo-list").innerHTML = "";
   document.getElementById("doing-list").innerHTML = "";
   document.getElementById("done-list").innerHTML = "";
@@ -96,9 +88,9 @@ function render() {
         break;
     }
   });
+  enableDragDrop()
   console.log("rendered!!!");
 }
-render();
 
 function categoryChange() {
   const itemCategory = event.target;
@@ -127,9 +119,10 @@ function categoryChange() {
       renderItem(item, "backlog-list");
       break;
   }
+  updatedb();
   console.log(todoList);
 }
-
+// create item
 function createItem() {
   event.preventDefault();
   const nameInput = document.getElementById("new-item-name");
@@ -161,7 +154,6 @@ function createItem() {
   if (nameInput.placeholder != null) nameInput.className = "warning-input";
   if (quantityInput.placeholder != null)
     quantityInput.className = "warning-input";
-
   if (!error) {
     const newItem = {};
     newItem.category = newCategory;
@@ -172,9 +164,8 @@ function createItem() {
     document.getElementById("new-item-name").value = "";
     document.getElementById("new-item-quantity").value = "";
     todoList.push(newItem);
-    console.log(list)
+    console.log(list);
     renderItem(newItem, list);
-
     if (nameInput.classList.contains("warning-input"))
       nameInput.classList.remove("warning-input");
     if (quantityInput.classList.contains("warning-input"))
@@ -182,10 +173,13 @@ function createItem() {
     nameInput.placeholder = "Item name";
     quantityInput.placeholder = "Quantity";
     formDiv.classList.add("hide");
+    updatedb();
+    enableDragDrop();
   }
+  
   console.log(todoList);
 }
-
+// delete item
 function deleteItem() {
   const item = event.target;
   const itemName = item.parentNode.id;
@@ -195,9 +189,11 @@ function deleteItem() {
   });
   itemNode.remove();
   todoList.splice(index, 1);
+  updatedb();
   console.log(todoList);
+  refreshdb();
 }
-
+// edit item
 function focusoutHandle() {
   const item = event.target;
   let itemName = item.parentNode.id;
@@ -211,9 +207,9 @@ function focusoutHandle() {
       itemNode.id = event.target.innerHTML;
     } else render();
   } else {
-    if (quantity_reg.test(event.target.innerHTML))
+    if (quantity_reg.test(event.target.innerHTML)) {
       todoList[index].quantity = Number(event.target.innerHTML);
-    else render();
+    } else render();
   }
   console.log(todoList[index]);
 }
@@ -233,32 +229,75 @@ function onenterHandle() {
     }
   } else {
     if (event.keyCode === 13) {
-      if (quantity_reg.test(event.target.innerHTML))
+      if (quantity_reg.test(event.target.innerHTML)) {
         todoList[index].quantity = Number(event.target.innerHTML);
-      else render();
+      } else render();
     }
   }
 }
-$(".item").draggable({
-  helper: "clone"
-});
-
-$(".lane").droppable({
-  accept: ".item",
-  hoverClass: "lane-hovering",
-  drop: function(ev, ui) {
-    ui.draggable.detach();
-    $(this).append(ui.draggable);
-    const parentNoode = ev.target;
-    const itemNode = ev.target.lastChild;
-    let itemName = itemNode.id;
-    const index = todoList.findIndex(function(obj) {
-      return obj.name === itemName;
-    });
-    todoList[index].category = parentNoode.id.slice(
-      0,
-      parentNoode.id.length - 5
-    );
-    console.log(todoList[index]);
+// update json db
+function updatedb() {
+  $.ajax({
+    url: "https://api.myjson.com/bins/f3vmq",
+    type: "PUT",
+    data: JSON.stringify(todoList),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(data, textStatus, jqXHR) {
+      console.log("db updated!");
+    }
+  });
+}
+// get JSON db from online db
+$.get("https://api.myjson.com/bins/f3vmq", function(data, textStatus, jqXHR) {
+  if (textStatus === "success") {
+    todoList = data;
+    render();
   }
 });
+// drag drop
+function enableDragDrop(){
+  $(".item").draggable({
+    helper: "clone"
+  });
+
+  $(".lane").droppable({
+    accept: ".item",
+    hoverClass: "lane-hovering",
+    drop: function(ev, ui) {
+      ui.draggable.detach();
+      $(this).append(ui.draggable);
+      const parentNoode = ev.target;
+      const itemNode = ev.target.lastChild;
+      let itemName = itemNode.id;
+      const index = todoList.findIndex(function(obj) {
+        return obj.name === itemName;
+      });
+      todoList[index].category = parentNoode.id.slice(
+        0,
+        parentNoode.id.length - 5
+      );
+      updatedb();
+      console.log(todoList[index]);
+    }
+  });
+}
+function refreshdb(){
+  if(todoList.length===0){
+    refreshdbByClick();
+  }
+}
+function refreshdbByClick(){
+  todoList=[{ "category": "todo", "name": "Development tools", "quantity": 5 },
+  { "category": "todo", "name": "Intro to React", "quantity": 1 },
+  { "category": "todo", "name": "Git basics and GitHub", "quantity": 2 },
+  { "category": "doing", "name": "DOM", "quantity": 1 },
+  { "category": "done", "name": "ES2015", "quantity": 1 },
+  { "category": "done", "name": "HTML", "quantity": 1 },
+  { "category": "done", "name": "CSS", "quantity": 1 },
+  { "category": "done", "name": "Regular Expression", "quantity": 3 },
+  { "category": "backlog", "name": "Scrum", "quantity": 1 }];
+  updatedb();
+  render()
+  alert("Refreshed db as default");
+}

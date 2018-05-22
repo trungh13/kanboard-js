@@ -18,7 +18,7 @@ body {
   height: 100%;
 }
 .container{
-  height:95%;
+  height:100%;
 }
 body p {
   font-size: 20 px;
@@ -33,16 +33,9 @@ body p {
   width: -webkit-fill-available;
   background-color:white;
 }
-.top-nav i {
-  background-color: lightgray;
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-}
-.top-nav i:before {
-  position: relative;
-  top: 24%;
-  left: 27%;
+.button-div i{
+  padding:10px;
+  margin:5px;
 }
 .container {
   display: grid;
@@ -152,13 +145,4 @@ form input[type="submit"],
 }
 .lane-hovering {
   border: 1px dashed black;
-}
-.footer{
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-}
-.footer a{
-  text-decoration: none;
 }
