@@ -23,20 +23,14 @@ body {
 body p {
   font-size: 20 px;
 }
-.container {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(200px, 25%));
-}
-.container h2 {
-  text-align: center;
-  padding: 10px;
-}
 .top-nav {
   height: 30px;
   padding: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  width: -webkit-fill-available;
 }
 .top-nav i {
   background-color: lightgray;
@@ -48,6 +42,15 @@ body p {
   position: relative;
   top: 24%;
   left: 27%;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 25%));
+  padding-top:60px;
+}
+.container h2 {
+  text-align: center;
+  padding: 10px;
 }
 .form-container {
   display: flex;
@@ -153,6 +156,7 @@ form input[type="submit"],
   display:flex;
   align-items: center;
   justify-content: center;
+  padding: 5px;
 }
 .footer a{
   text-decoration: none;
