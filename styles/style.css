@@ -18,7 +18,7 @@ body {
   height: 100%;
 }
 .container{
-  height:90%;
+  height:95%;
 }
 body p {
   font-size: 20 px;
@@ -31,6 +31,7 @@ body p {
   justify-content: space-between;
   position: fixed;
   width: -webkit-fill-available;
+  background-color:white;
 }
 .top-nav i {
   background-color: lightgray;
@@ -146,7 +147,7 @@ form input[type="submit"],
 }
 /* swimming */
 .lane {
-  height: auto;
+  height: 100%;
   padding: 0px 5px;
 }
 .lane-hovering {
