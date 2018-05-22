@@ -47,6 +47,7 @@ const renderItem = (item, parentNode) => {
   itemName.setAttribute("contenteditable", "true");
   itemName.setAttribute("onfocusout", "focusoutHandle()");
   itemName.setAttribute("onkeypress", "onenterHandle()");
+  itemName.setAttribute("onclick",'$(this).focus();');
 
   let itemQuantity = document.createElement("div");
   itemQuantity.className = "item-quantity";
