@@ -172,6 +172,7 @@ function createItem() {
     document.getElementById("new-item-name").value = "";
     document.getElementById("new-item-quantity").value = "";
     todoList.push(newItem);
+    console.log(list)
     renderItem(newItem, list);
 
     if (nameInput.classList.contains("warning-input"))
