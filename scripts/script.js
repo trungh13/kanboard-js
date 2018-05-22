@@ -192,7 +192,6 @@ function deleteItem() {
   todoList.splice(index, 1);
   updatedb();
   console.log(todoList);
-  refreshdb();
 }
 // edit item
 function focusoutHandle() {
